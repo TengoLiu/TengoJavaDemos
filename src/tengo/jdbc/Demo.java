@@ -30,7 +30,7 @@ public class Demo {
 		return conn;
 	}
 
-	private static Integer query() {
+	private static void query() {
 		Connection conn = getConn();
 		String sql = "select * from persons";
 		PreparedStatement pstmt;
@@ -42,9 +42,6 @@ public class Demo {
 			while (rs.next()) {
 				for (int i = 1; i <= col; i++) {
 					System.out.print(rs.getString(i) + "\t");
-					if ((i == 2) && (rs.getString(i).length() < 8)) {
-						System.out.print("\t");
-					}
 				}
 				System.out.println("");
 			}
@@ -52,7 +49,6 @@ public class Demo {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 
 	private static int delete(int id) {
