@@ -1,6 +1,7 @@
 package tengo.date;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -40,6 +41,9 @@ public class MyCalendar {
 				c.get(Calendar.SECOND), // 秒
 				c.get(Calendar.MILLISECOND)));// 毫秒
 		System.out.println("时（12小时制）：" + c.get(Calendar.HOUR));
+		// 输出星期几，注意，1=周日，2=周一，3=周二...
+		// 这个是按照外国人的习惯来设定的，他们一般把周日当做是一周的第一天
+		System.out.println(c.get(Calendar.DAY_OF_WEEK));
 	}
 
 	/*
@@ -69,5 +73,15 @@ public class MyCalendar {
 				c.get(Calendar.MINUTE), // 分钟
 				c.get(Calendar.SECOND), // 秒
 				c.get(Calendar.MILLISECOND));// 毫秒
+	}
+
+	/*
+	 * 此处介绍一个Calendar抽象类的具体实现类 这个类返回一个calendar的实例，有一些它自己定义的方法
+	 */
+	@Test
+	public void test3() {
+		GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+		System.out.println("2018 是否是闰年：" + calendar.isLeapYear(2018));
+		System.out.println("2020 是否是闰年：" + calendar.isLeapYear(2020));
 	}
 }
