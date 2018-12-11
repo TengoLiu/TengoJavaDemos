@@ -34,7 +34,7 @@ public class MyStream {
 
 		System.out.println("请输入字符串行.....");
 
-		// 读取输入内容的第一个字符
+		// 读取输入内容的第一行
 		String s = br.readLine();
 		System.out.println("输入的行为：" + s);
 	}
