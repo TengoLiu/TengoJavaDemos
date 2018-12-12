@@ -1,11 +1,14 @@
 package tengo.lambda;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -121,5 +124,80 @@ public class MyLambda implements MsgInterface {
 		// tengo.lambda.MyLambda$$Lambda$2/1143839598（不同机器结果或许会不同，但这个类名跟上面的类名肯定是不一样的）
 		// 由于这个对象还是实现了接口MsgInterface的匿名类的对象，由此可以看到，系统又给我们生成了一个莫名其妙的类名
 		System.out.println(msgHelperDel2.getClass());
+
+	}
+
+	/*
+	 * 然后就是喜闻乐见的看系统接口时间: Predicate<T>为JAVA自带的一个包含一个 T->Boolean 类型的接口，日常中可能用的比较多
+	 * 就像C#给我们也定义了一些常用的委托类型（如Action<T>、Function<T,T>等等其它重载）一样
+	 */
+	@Test
+	public void testPredicate() {
+		Predicate<Integer> pre = p -> p > 10;
+		System.out.println("100是否比10大？" + pre.test(100));
+		System.out.println("10是否比10大？" + pre.test(10));
+		System.out.println("5是否比10大？" + pre.test(5));
+	}
+
+	/*
+	 * 测试Function<T, T> 不出所料，Function<T,T>也是一个接口，包含单个输入参数与返回结果。
+	 * 接收者默认就是调用匿名类的apply方法，而这个方法刚好也是我们通过lambda传进去的
+	 */
+	@Test
+	public void testFunction() {
+		// 一个传入值为Integer，返回值为Boolean的方法，判断传入的值是否比10小
+		Function<Integer, Boolean> fun1 = p -> p < 10;
+
+		// 一个传入值为String，返回值为Boolean的方法，判断传入的字符串长度是否超过10
+		Function<String, Boolean> fun2 = p -> p.length() > 10;
+
+		System.out.println("fun1 apply:" + fun1.apply(80));
+		System.out.println("fun2 apply:" + fun2.apply("sasdhkdkashdkhashf"));
+	}
+
+	/*
+	 * 测试Consumer<T>（即相当于C#里面的Action<T>），即只有输入没有输出的委托类型 , 这个委托包含的方法是accept(T t)
+	 */
+	@Test
+	public void testAction() {
+		// 传入一个传入参数为String的方法
+		Consumer<String> action = p -> System.out.println(p);
+
+		// 调用这个action内含的方法
+		action.accept("HELLO YOU!~~~~");
+	}
+
+	/* 测试用lambda对数组集合进行筛选过滤以及遍历等等操作 */
+	@Test
+	public void lambdaForArrayAndCollections() {
+		List<Integer> list = new ArrayList<>();
+		list.add(15);
+		list.add(13);
+		list.add(44);
+		list.add(23);
+		list.add(1);
+
+		// 使用filter 首先要转成stream()然后才可以调用过滤方法filter,然后还需要把过滤后的书记转化成list，贼麻烦
+		List<Integer> list2 = list.stream().filter(p -> p > 20).collect(Collectors.toList());
+		System.out.print("大于20的数为：");
+		// forEach倒是挺方便的，可以直接使用，不需要转化
+		list2.forEach(p -> System.out.print(p + "，"));
+
+		List<String> strList = new ArrayList<>();
+		strList.add("asdas");
+		strList.add("sacdssssda");
+		strList.add("ascdasasdd");
+		strList.add("accccsgggdasd");
+		strList.add("kkjjjjassdasd");
+
+		List<String> strList2 = strList.stream().filter(p -> p.length() > 10).collect(Collectors.toList());
+		System.out.print("\n字符串长度大于10的元素为：");
+		strList2.forEach(p -> System.out.print(p + "，"));
+
+		// 以下例子是网上找的 用于统计所有花费
+		List<Double> cost = Arrays.asList(10.0, 20.0, 30.0);
+		// map的作用是将一个对象变为另外一个，而reduce实现的则是将所有值合并为一个。
+		double allCost = cost.stream().map(x -> x + x * 0.05).reduce((sum, x) -> sum + x).get();
+		System.out.println("\n总共的花费为：" + allCost);
 	}
 }
