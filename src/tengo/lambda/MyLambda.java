@@ -196,8 +196,15 @@ public class MyLambda implements MsgInterface {
 
 		// 以下例子是网上找的 用于统计所有花费
 		List<Double> cost = Arrays.asList(10.0, 20.0, 30.0);
-		// map的作用是将一个对象变为另外一个，而reduce实现的则是将所有值合并为一个。
-		double allCost = cost.stream().map(x -> x + x * 0.05).reduce((sum, x) -> sum + x).get();
+
+		// map的作用是将一个对象变为另外一个，此处对集合内所有花费都 +0.05
+		List<Double> cost1 = cost.stream().map(x -> x + x * 0.05).collect(Collectors.toList());
+		System.out.println("\n调用map后：");
+		cost1.forEach(p -> System.out.print(p + "，"));
+
+		// 而reduce实现的则是将所有值合并为一个，计算总值
+		double allCost = cost1.stream().reduce((sum, x) -> sum + x).get();
+
 		System.out.println("\n总共的花费为：" + allCost);
 	}
 }
