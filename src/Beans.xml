@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="helloWorld" class="tengo.spring.ioc.HelloWorld">
+		<!-- property即为要注入到类里面的属性，这样在初始化的时候，这个类的message就为Hello World! -->
+		<property name="message" value="Hello World!" />
+	</bean>
+
+	<bean id="helloChinese" class="tengo.spring.ioc.HelloChinese">
+		<property name="message" value="你好，中国人!" />
+	</bean>
+
+	<bean id="helloJapanse" class="tengo.spring.ioc.HelloJapanse">
+		<property name="message" value="d***))_!!!fsdfds" />
+	</bean>
+
+	<!-- 定义 textEditor 其中这个类在构造函数里面需要传入一个SpellChecker对象。 -->
+	<bean id="textEditor" class="tengo.spring.di.TextEditor">
+		<!-- 构造函数中传入一个spellChecker对象，达到依赖注入的目的。 -->
+		<!-- ref表明这不是一个直接的值，而是对另一个 bean 的引用 -->
+		<constructor-arg ref="spellChecker" />
+	</bean>
+
+	<!-- 定义 textEditor2 这个类里面有一个属性，需要传入一个SpellChecker对象 -->
+	<bean id="textEditor2" class="tengo.spring.di.TextEditor2">
+		<!-- 对应setter方法传入一个spellChecker对象，达到依赖注入的目的 -->
+		<property name="spellChecker" ref="spellChecker" />
+	</bean>
+
+	<!-- 如果属性很多又不想写property的话，可以用下面的方式简写 -->
+	<!-- <bean id="textEditor2" class="tengo.spring.di.TextEditor2" p:spellChecker-ref="spellChecker"> 
+		</bean> -->
+
+	<!-- 定义 textEditor3 这个类里面有一个属性，需要传入一个SpellChecker对象 -->
+	<bean id="textEditor3" class="tengo.spring.di.TextEditor2">
+		<!-- 对应setter方法传入一个spellChecker对象，达到依赖注入的目的 -->
+		<property name="spellChecker">
+			<bean id="spellChecker2" class="tengo.spring.di.SpellChecker" />
+		</property>
+	</bean>
+
+	<!-- 定义 SpellChecker -->
+	<bean id="spellChecker" class="tengo.spring.di.SpellChecker" />
+
+	<!-- 定义内部包含了集合类型成员数据的bean -->
+	<bean id="javaCollection" class="tengo.spring.di.DataBean">
+
+		<!-- 此处注入一个List，然后框架会调用setAddressList(java.util.List)方法吧这里的数据传进去 -->
+		<property name="addressList">
+			<list>
+				<value>中国</value>
+				<value>中国</value>
+				<value>美国</value>
+				<value>伊拉克</value>
+				<value>泰国</value>
+			</list>
+		</property>
+
+		<!-- 此处注入一个Set，然后框架会调用setAddressSet(java.util.Set)方法吧这里的数据传进去 -->
+		<!-- 由于Set的特性，重复的数据将会被合并，因此到最后只有一个中国 -->
+		<property name="addressSet">
+			<set>
+				<value>中国</value>
+				<value>中国</value>
+				<value>美国</value>
+				<value>伊拉克</value>
+				<value>泰国</value>
+			</set>
+		</property>
+
+		<!-- 此处注入一个Map，然后框架会调用setAddressMap(java.util.Map)方法吧这里的数据传进去 -->
+		<property name="addressMap">
+			<map>
+				<entry key="1" value="中国" />
+				<entry key="2" value="伊拉克" />
+				<entry key="3" value="美国" />
+				<entry key="4" value="美国" />
+			</map>
+		</property>
+
+		<!-- 此处注入一个Properties，然后框架会调用setAddressProp(java.util.Properties)方法吧这里的数据传进去 -->
+		<property name="addressProp">
+			<props>
+				<prop key="one">中国</prop>
+				<prop key="two">伊拉克</prop>
+				<prop key="three">美国</prop>
+				<prop key="four">美国</prop>
+			</props>
+		</property>
+	</bean>
+
+
+</beans>
