@@ -93,5 +93,21 @@
 		</property>
 	</bean>
 
+	<!-- 定义一个自动装配 byName的bean,不需要指定property，这是匹配bean里面的属性和xml里面beanId，不区分大小写 -->
+	<!--只要这个bean里面有一个别的类的引用，那么将自动装载进去 ，这个bean必须有setter方法 -->
+	<bean id="textEditor4" class="tengo.spring.di.TextEditor2"
+		autowire="byName">
+	</bean>
 
+	<!-- 定义一个自动自动装配 byType的bean,不需要指定property，这是匹配bean里面的属性和xml里面beanId，不区分大小写 -->
+	<!--只要这个bean里面有一个别的类的引用，那么将自动装载进去 ，这个bean必须有setter方法 -->
+	<bean id="textEditor5" class="tengo.spring.di.TextEditor3"
+		autowire="byType">
+	</bean>
+
+	<!-- 定义一个通过构造函数自动装配bean,不需要指定property -->
+	<!--只要这个bean的构造函数里面有一个别的类的引用，并且被引用的bean的名称和这里的beanid匹配，将自动装载 -->
+	<bean id="textEditor6" class="tengo.spring.di.TextEditor"
+		autowire="constructor">
+	</bean>
 </beans>

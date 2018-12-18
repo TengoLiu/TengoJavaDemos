@@ -21,6 +21,18 @@ public class Demo1 {
 		// 通过内部bean依赖注入构建而成，其调用也没什么区别
 		TextEditor2 textEditor3 = (TextEditor2) context.getBean("textEditor3");
 		textEditor3.spellCheck();
+
+		// 测试自动装配byName的bean
+		TextEditor2 textEditor4 = (TextEditor2) context.getBean("textEditor4");
+		textEditor4.spellCheck();
+
+		// 测试自动装配byType的bean
+		TextEditor3 textEditor5 = (TextEditor3) context.getBean("textEditor5");
+		textEditor5.spellCheck();
+
+		// 测试通过构造函数自动装配的bean
+		TextEditor textEditor6 = (TextEditor) context.getBean("textEditor6");
+		textEditor6.spellCheck();
 	}
 
 	@Test
