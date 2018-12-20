@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:annotation-config />
+
+	<!-- 仅仅在属性里面定义了age，由于name也定义了@Required，因此应该报错的，但是高版本居然不报错了... -->
+	<bean id="student" class="tengo.spring.annotation.Student">
+		<property name="age" value="21" />
+		<!-- <property name="name" value="linda" /> -->
+	</bean>
+
+	<!-- 定义 textEditor 啥属性也没写，后面自动装配Autowired会自动匹配填充 -->
+	<bean id="textEditor" class="tengo.spring.annotation.TextEditor">
+	</bean>
+
+	<!-- 定义 textEditor 啥属性也没写，后面自动装配Autowired会自动匹配填充 -->
+	<bean id="textEditor2" class="tengo.spring.annotation.TextEditor2">
+	</bean>
+
+	<!-- 定义 SomeOne 啥属性也没写，后面自动装配Autowired会自动匹配填充 -->
+	<bean id="someOne" class="tengo.spring.annotation.SomeOne">
+	</bean>
+
+	<!-- 定义两个同类型但不同名的bean，后面用来测试指定只懂装配 -->
+	<bean id="student1" class="tengo.spring.annotation.Student">
+		<property name="age" value="18" />
+		<property name="name" value="linda" />
+	</bean>
+	<bean id="student2" class="tengo.spring.annotation.Student">
+		<property name="age" value="21" />
+		<property name="name" value="like" />
+	</bean>
+
+	<!-- 定义 SpellChecker -->
+	<bean id="spellChecker" class="tengo.spring.annotation.SpellChecker" />
+</beans>
